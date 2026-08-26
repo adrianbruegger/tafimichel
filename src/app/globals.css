@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+:root {
+  --veld: #100d0a;
+  --veld-soft: #1a1510;
+  --ash: #e3ddd2;
+  --ash-deep: #d4cdc0;
+  --ember: #c2410c;
+  --mist: #8a8378;
+  --line: rgba(227, 221, 210, 0.14);
+  --background: var(--veld);
+  --foreground: var(--ash);
+}
+
+@theme inline {
+  --color-veld: var(--veld);
+  --color-veld-soft: var(--veld-soft);
+  --color-ash: var(--ash);
+  --color-ash-deep: var(--ash-deep);
+  --color-ember: var(--ember);
+  --color-mist: var(--mist);
+  --color-line: var(--line);
+  --color-ink: var(--veld);
+  --color-ink-soft: var(--veld-soft);
+  --color-paper: var(--ash);
+  --color-paper-deep: var(--ash-deep);
+  --color-chili: var(--ember);
+  --color-gold: var(--ember);
+  --color-muted: var(--mist);
+  --color-hairline: var(--line);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-onest);
+  --font-display: var(--font-shoulders);
+}
+
+html,
+body {
+  background: var(--veld);
+  color: var(--ash);
+  overflow-x: hidden;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  font-family: var(--font-sans), sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--ember);
+  color: var(--ash);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--ash);
+  outline-offset: 3px;
+}
+
+.display {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.012em;
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+
+.display-name {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.012em;
+  line-height: 0.88;
+  text-transform: none;
+}
+
+.label {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.frame {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1280px;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .frame {
+    padding-inline: 2rem;
+  }
+}
+
+.field {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--ash);
+  border-radius: 0;
+  padding: 0.7rem 0 0.85rem;
+  font: inherit;
+  transition: border-color 180ms ease;
+}
+
+.field::placeholder {
+  color: color-mix(in srgb, var(--ash) 36%, transparent);
+}
+
+.field:focus {
+  outline: none;
+  border-bottom-color: var(--ash);
+}
+
+@keyframes hero-clip {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 1.2rem, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 1rem, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+.hero-clip {
+  animation: hero-clip 1.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-fade {
+  animation: fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-clip,
+  .hero-fade {
+    animation: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
