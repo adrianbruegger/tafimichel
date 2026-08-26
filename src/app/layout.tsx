@@ -18,15 +18,17 @@ const display = Big_Shoulders({
   display: "swap",
 });
 
+const origin = "https://tafimichel.vercel.app";
+
 export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
+  metadataBase: new URL(origin),
   title: meta.home.title,
   description: meta.home.description,
   alternates: { canonical: "/" },
   openGraph: {
     title: meta.home.title,
     description: meta.home.description,
-    url: site.url,
+    url: origin,
     siteName: site.name,
     locale: "de_CH",
     type: "website",
