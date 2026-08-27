@@ -67,6 +67,7 @@ export function Hero() {
             alt=""
             fill
             sizes="100vw"
+            quality={95}
             loading="eager"
             fetchPriority="high"
             className="hero-shot-sa object-cover object-bottom will-change-transform"
@@ -82,6 +83,7 @@ export function Hero() {
             alt=""
             fill
             sizes="100vw"
+            quality={95}
             loading="eager"
             className="hero-shot-ch object-cover object-bottom will-change-transform"
           />

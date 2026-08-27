@@ -57,6 +57,7 @@ export function Bio() {
               alt="Tafi Michel im Freien, Blazer mit südafrikanischem Stoff"
               fill
               sizes="(max-width: 768px) 100vw, 40vw"
+              quality={95}
               className="bio-shot object-cover object-[center_12%] will-change-transform"
             />
           </div>

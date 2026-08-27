@@ -45,6 +45,7 @@ export default function AboutPage() {
               alt="Tafi Michel"
               fill
               sizes="(max-width: 768px) 100vw, 40vw"
+              quality={95}
               className="object-cover object-[center_28%]"
             />
           </div>
