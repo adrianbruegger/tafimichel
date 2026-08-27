@@ -93,6 +93,15 @@ export const home = {
     ],
     shared:
       "Die Bühne geteilt hat er dabei unter anderem mit Stefan Büsser, Cenk, Reena Krishnaraja, Mateo Gudenrath, Johnny Wegenast und Hosh.",
+    sharedLead: "Die Bühne geteilt mit",
+    sharedNames: [
+      "Stefan Büsser",
+      "Cenk",
+      "Reena Krishnaraja",
+      "Mateo Gudenrath",
+      "Johnny Wegenast",
+      "Hosh",
+    ],
   },
   dates: {
     title: "Nächste Auftritte",

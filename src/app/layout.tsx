@@ -47,6 +47,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${sans.variable} ${display.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-veld font-sans text-ash">
+        {/* Hides scroll-reveal targets before first paint, so nothing flashes
+            in and then jumps. Injecting a stylesheet rather than touching a
+            React-owned attribute keeps hydration clean; without JS, or with
+            reduced motion, the rule is never added and the page reads as-is. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "if(!matchMedia('(prefers-reduced-motion: reduce)').matches){var s=document.createElement('style');s.textContent='[data-reveal]{opacity:0}';document.head.appendChild(s)}",
+          }}
+        />
         <Providers>
           <a
             href="#inhalt"

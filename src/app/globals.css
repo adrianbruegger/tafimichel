@@ -1,25 +1,52 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────────────────────
+   Tokens — one dark ground, one accent, layered surfaces.
+   Palette stays the brand's: veld night, ash paper, ember.
+   ───────────────────────────────────────────────────────────── */
 :root {
-  --veld: #100d0a;
-  --veld-soft: #1a1510;
-  --ash: #e3ddd2;
-  --ash-deep: #d4cdc0;
-  --ember: #c2410c;
+  --veld: #0d0b09;
+  --veld-soft: #16120e;
+  --veld-lift: #1f1a14;
+  --ash: #e8e2d7;
+  --ash-deep: #d6cfc1;
+  --ember: #d4460b;
+  --ember-deep: #a8360a;
   --mist: #8a8378;
-  --line: rgba(227, 221, 210, 0.14);
+
+  --line: rgba(232, 226, 215, 0.13);
+  --line-soft: rgba(232, 226, 215, 0.07);
+  --line-ink: rgba(13, 11, 9, 0.14);
+
   --background: var(--veld);
   --foreground: var(--ash);
+
+  /* one house easing family */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --nav-h: 4rem;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --nav-h: 4.25rem;
+  }
 }
 
 @theme inline {
   --color-veld: var(--veld);
   --color-veld-soft: var(--veld-soft);
+  --color-veld-lift: var(--veld-lift);
   --color-ash: var(--ash);
   --color-ash-deep: var(--ash-deep);
   --color-ember: var(--ember);
+  --color-ember-deep: var(--ember-deep);
   --color-mist: var(--mist);
   --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-line-ink: var(--line-ink);
   --color-ink: var(--veld);
   --color-ink-soft: var(--veld-soft);
   --color-paper: var(--ash);
@@ -38,13 +65,14 @@ html,
 body {
   background: var(--veld);
   color: var(--ash);
-  overflow-x: hidden;
+  overflow-x: clip;
   scroll-padding-top: 5rem;
 }
 
 body {
   font-family: var(--font-sans), sans-serif;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
@@ -55,34 +83,92 @@ body {
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
-textarea:focus-visible {
+textarea:focus-visible,
+summary:focus-visible {
   outline: 2px solid var(--ash);
   outline-offset: 3px;
+  border-radius: 1px;
 }
 
+/* ── Film grain: keeps the flat dark from reading as dead space ── */
+body::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.032;
+  /* A large tile keeps the repeat from reading as faint seams across flat areas. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 6s steps(1) infinite;
+  will-change: transform;
+}
+
+@keyframes grain {
+  0% { transform: translate3d(0, 0, 0); }
+  10% { transform: translate3d(-3%, -2%, 0); }
+  20% { transform: translate3d(-8%, 4%, 0); }
+  30% { transform: translate3d(3%, -9%, 0); }
+  40% { transform: translate3d(-2%, 7%, 0); }
+  50% { transform: translate3d(-6%, 2%, 0); }
+  60% { transform: translate3d(5%, 5%, 0); }
+  70% { transform: translate3d(-4%, -6%, 0); }
+  80% { transform: translate3d(7%, 1%, 0); }
+  90% { transform: translate3d(-1%, 8%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+/* ─────────────────────────── Type ─────────────────────────── */
 .display {
   font-family: var(--font-display), sans-serif;
   font-weight: 800;
-  letter-spacing: -0.012em;
-  line-height: 0.88;
+  letter-spacing: -0.018em;
+  line-height: 0.84;
   text-transform: uppercase;
+  text-wrap: balance;
 }
 
 .display-name {
   font-family: var(--font-display), sans-serif;
   font-weight: 800;
-  letter-spacing: -0.012em;
-  line-height: 0.88;
+  letter-spacing: -0.018em;
+  line-height: 0.84;
   text-transform: none;
 }
 
 .label {
   font-size: 0.6875rem;
   font-weight: 500;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
+/* Small caps eyebrow with a leading tick — used to open sections */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  content: "";
+  display: block;
+  width: 1.75rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+.prose-lede {
+  text-wrap: pretty;
+  line-height: 1.62;
+}
+
+/* ────────────────────────── Layout ────────────────────────── */
 .frame {
   margin-inline: auto;
   width: 100%;
@@ -96,6 +182,152 @@ textarea:focus-visible {
   }
 }
 
+/* Section divider drawn at the text column's edges. A plain `border-t` on
+   .frame lands on the frame's outer edge, 2rem wider than every other rule on
+   the page — this keeps all the hairlines on one vertical grid. */
+.frame-divide {
+  position: relative;
+}
+
+.frame-divide::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 1.25rem;
+  left: 1.25rem;
+  height: 1px;
+  background: var(--line);
+}
+
+@media (min-width: 768px) {
+  .frame-divide::before {
+    right: 2rem;
+    left: 2rem;
+  }
+}
+
+/* Section rule that echoes the hero's country blade */
+.rule {
+  position: relative;
+  height: 1px;
+  background: var(--rule-line, var(--line));
+}
+
+.rule::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: 4.5rem;
+  background: var(--ember);
+}
+
+/* On the ash sections the hairline has to be ink, not ash. */
+.rule-ink {
+  --rule-line: var(--line-ink);
+}
+
+/* ───────────────────────── Controls ───────────────────────── */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  height: 3.25rem;
+  padding-inline: 1.75rem;
+  overflow: hidden;
+  isolation: isolate;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 340ms var(--ease-out-expo);
+}
+
+/* wipe-up fill on hover — replaces the flat colour swap */
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform: translateY(101%);
+  transition: transform 480ms var(--ease-out-expo);
+}
+
+.btn:hover::before,
+.btn:focus-visible::before {
+  transform: translateY(0);
+}
+
+.btn-ember {
+  background: var(--ember);
+  color: var(--ash);
+}
+.btn-ember::before { background: var(--ash); }
+.btn-ember:hover,
+.btn-ember:focus-visible { color: var(--veld); }
+
+.btn-solid {
+  background: var(--ash);
+  color: var(--veld);
+}
+.btn-solid::before { background: var(--ember); }
+.btn-solid:hover,
+.btn-solid:focus-visible { color: var(--ash); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ash);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.btn-ghost::before { background: var(--ash); }
+.btn-ghost:hover,
+.btn-ghost:focus-visible { color: var(--veld); }
+
+.btn-arrow {
+  transition: transform 480ms var(--ease-out-expo);
+}
+
+.btn:hover .btn-arrow,
+.btn:focus-visible .btn-arrow {
+  transform: translateX(0.28rem);
+}
+
+/* Underline link that draws in from the left */
+.link-line {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  height: 3rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.link-line::after {
+  content: "";
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  opacity: 0.28;
+  transform-origin: left;
+  transition: opacity 400ms var(--ease-out-expo), transform 500ms var(--ease-out-expo);
+}
+
+.link-line:hover::after,
+.link-line:focus-visible::after {
+  opacity: 1;
+  transform: scaleX(1.06);
+}
+
+/* ─────────────────────────── Forms ─────────────────────────── */
 .field {
   width: 100%;
   border: 0;
@@ -105,52 +337,103 @@ textarea:focus-visible {
   border-radius: 0;
   padding: 0.7rem 0 0.85rem;
   font: inherit;
-  transition: border-color 180ms ease;
+  transition: border-color 260ms var(--ease-out-expo), background-color 260ms var(--ease-out-expo);
 }
 
 .field::placeholder {
-  color: color-mix(in srgb, var(--ash) 36%, transparent);
+  color: color-mix(in srgb, var(--ash) 30%, transparent);
+}
+
+.field:hover {
+  border-bottom-color: color-mix(in srgb, var(--ash) 40%, transparent);
 }
 
 .field:focus {
   outline: none;
-  border-bottom-color: var(--ash);
+  border-bottom-color: var(--ember);
 }
 
+/* ────────────────────── Entrance motion ────────────────────── */
 @keyframes hero-clip {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 1.2rem, 0);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+  from { opacity: 0; transform: translate3d(0, 1.2rem, 0); }
+  to { opacity: 1; transform: none; }
 }
 
 @keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 1rem, 0);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+  from { opacity: 0; transform: translate3d(0, 1rem, 0); }
+  to { opacity: 1; transform: none; }
 }
 
+@keyframes rise-in {
+  from { transform: translate3d(0, 130%, 0); }
+  to { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes blade-drop {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
 
 .hero-clip {
-  animation: hero-clip 1.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: hero-clip 1.15s var(--ease-out-expo) both;
 }
 
 .hero-fade {
-  animation: fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: fade-up 0.9s var(--ease-out-expo) both;
+}
+
+/* mask wrapper for line-by-line display reveals */
+.line-mask {
+  display: block;
+  overflow: hidden;
+}
+
+.line-mask > span {
+  display: block;
+  animation: rise-in 1.25s var(--ease-out-expo) both;
+}
+
+/* Display lines carry the flag dots above the cap height — the extra padding
+   keeps them out of the mask's clip while the line rises. */
+.line-mask-display {
+  padding-top: 0.3em;
+  padding-bottom: 0.16em;
+  margin-top: -0.3em;
+  margin-bottom: -0.16em;
+}
+
+/* SplitText wraps each of these in a clipping mask sized to it, so the padding
+   here is what keeps Ü, Ö and Ä inside the mask instead of shaved flat. */
+.split-line {
+  padding-top: 0.2em;
+  padding-bottom: 0.08em;
+}
+
+@keyframes cue-run {
+  0% { transform: translateY(-110%); }
+  55% { transform: translateY(260%); }
+  100% { transform: translateY(260%); }
+}
+
+.cue-run {
+  animation: cue-run 2.3s var(--ease-in-out) infinite;
+}
+
+/* Reveal targets are hidden by a stylesheet the bootstrap script injects
+   (see layout.tsx) — never here, so no-JS visitors always see the content. */
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-clip,
-  .hero-fade {
+  .hero-fade,
+  .line-mask > span,
+  .cue-run,
+  body::after {
     animation: none;
   }
 

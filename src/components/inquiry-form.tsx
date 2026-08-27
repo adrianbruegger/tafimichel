@@ -2,61 +2,78 @@
 
 import { useActionState } from "react";
 import { sendInquiry, type ContactState } from "@/app/actions";
+import { Arrow } from "@/components/ui";
 
 const initial: ContactState = { status: "idle", message: "" };
 
 const fields = [
-  { id: "name", label: "Name", type: "text", autoComplete: "name", required: true },
-  { id: "email", label: "E-Mail", type: "email", autoComplete: "email", required: true },
-  { id: "phone", label: "Telefon", type: "tel", autoComplete: "tel", required: false },
-  { id: "eventDate", label: "Datum des Anlasses", type: "text", required: false },
-  { id: "place", label: "Ort", type: "text", required: false },
-  { id: "kind", label: "Art des Anlasses", type: "text", required: false },
-  { id: "audience", label: "Erwartete Publikumsgrösse", type: "text", required: false },
-  { id: "length", label: "Gewünschte Länge des Auftritts", type: "text", required: false },
+  { id: "name", label: "Name", type: "text", autoComplete: "name", required: true, wide: false },
+  { id: "email", label: "E-Mail", type: "email", autoComplete: "email", required: true, wide: false },
+  { id: "phone", label: "Telefon", type: "tel", autoComplete: "tel", required: false, wide: false },
+  { id: "eventDate", label: "Datum des Anlasses", type: "text", required: false, wide: false },
+  { id: "place", label: "Ort", type: "text", required: false, wide: false },
+  { id: "kind", label: "Art des Anlasses", type: "text", required: false, wide: false },
+  { id: "audience", label: "Erwartete Publikumsgrösse", type: "text", required: false, wide: false },
+  { id: "length", label: "Gewünschte Länge", type: "text", required: false, wide: false },
 ] as const;
 
 export function InquiryForm() {
   const [state, action, pending] = useActionState(sendInquiry, initial);
+  const done = state.status === "success";
 
   return (
     <form action={action} className="max-w-2xl">
-      {fields.map((field) => (
-        <div key={field.id} className="mb-8">
-          <label className="label text-mist" htmlFor={field.id}>
-            {field.label}
-            {field.required ? "" : " (optional)"}
-          </label>
-          <input
-            id={field.id}
-            name={field.id}
-            type={field.type}
-            autoComplete={"autoComplete" in field ? field.autoComplete : undefined}
-            required={field.required}
-            className="field"
-          />
-        </div>
-      ))}
-      <label className="label text-mist" htmlFor="message">
-        Nachricht
-      </label>
-      <textarea
-        id="message"
-        name="message"
-        required
-        rows={5}
-        className="field resize-none"
-      />
-      <button
-        type="submit"
-        disabled={pending || state.status === "success"}
-        className="mt-10 flex h-14 w-full items-center justify-center bg-ash text-sm font-medium uppercase tracking-[0.16em] text-veld transition-colors hover:bg-ember hover:text-ash disabled:cursor-not-allowed disabled:opacity-70"
-      >
-        {pending ? "Wird gesendet…" : state.status === "success" ? "Gesendet" : "Anfrage senden"}
-      </button>
+      <div className="grid gap-x-10 gap-y-7 sm:grid-cols-2">
+        {fields.map((field) => (
+          <div key={field.id} className={field.wide ? "sm:col-span-2" : undefined}>
+            <label className="label text-ash/40" htmlFor={field.id}>
+              {field.label}
+              {field.required ? <span className="ml-1 text-ember">*</span> : null}
+            </label>
+            <input
+              id={field.id}
+              name={field.id}
+              type={field.type}
+              autoComplete={"autoComplete" in field ? field.autoComplete : undefined}
+              required={field.required}
+              className="field mt-1"
+            />
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-9">
+        <label className="label text-ash/40" htmlFor="message">
+          Nachricht<span className="ml-1 text-ember">*</span>
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          required
+          rows={5}
+          className="field mt-1 resize-none"
+        />
+      </div>
+
+      <div className="mt-10 flex flex-wrap items-center gap-6">
+        <button
+          type="submit"
+          disabled={pending || done}
+          className="btn btn-solid h-14 w-full px-8 sm:w-auto disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {pending ? "Wird gesendet…" : done ? "Gesendet" : "Anfrage senden"}
+          {!pending && !done ? <Arrow /> : null}
+        </button>
+        <p className="text-xs text-ash/35">Felder mit * sind erforderlich.</p>
+      </div>
+
       {state.status !== "idle" ? (
         <p
-          className={`mt-5 text-sm ${state.status === "error" ? "text-ember" : "text-ash"}`}
+          className={`mt-6 border-l-2 py-1 pl-4 text-sm ${
+            state.status === "error"
+              ? "border-ember text-ember"
+              : "border-ash/40 text-ash"
+          }`}
           role={state.status === "error" ? "alert" : "status"}
         >
           {state.message}
