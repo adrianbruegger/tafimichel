@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   description: meta.book.description,
 };
 
+export const maxDuration = 30;
+
 export default function BookPage() {
   return (
     <main>

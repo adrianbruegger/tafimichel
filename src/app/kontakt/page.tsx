@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   description: meta.contact.description,
 };
 
+export const maxDuration = 30;
+
 export default function ContactPage() {
   return (
     <main>
