@@ -108,7 +108,7 @@ export function Hero() {
           <p className="hero-fade eyebrow text-ash/85" style={{ animationDelay: "80ms" }}>
             {home.hero.eyebrow}
           </p>
-          <h1 className="display-name mt-5 text-[clamp(4.4rem,16vw,11rem)] text-ash [text-shadow:0_0.06em_0.45em_rgba(13,11,9,0.5)]">
+          <h1 className="display-name mt-5 text-[clamp(4.4rem,16vw,11rem)] text-ash">
             <span className="line-mask line-mask-display">
               <span style={{ animationDelay: "140ms" }}>
                 Taf
