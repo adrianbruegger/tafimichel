@@ -1,14 +1,11 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import { CopyBlock } from "@/components/copy-block";
 import { Reveal, SplitHeading } from "@/components/reveal";
 import { GhostLink, PageIntro, SolidLink } from "@/components/ui";
+import { pageMeta } from "@/lib/seo";
 import { about, meta } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: meta.about.title,
-  description: meta.about.description,
-};
+export const metadata = pageMeta("/ueber", meta.about.title, meta.about.description);
 
 /** "Kurz — 25 Wörter" splits into a heading and a length note. */
 function splitLabel(label: string) {

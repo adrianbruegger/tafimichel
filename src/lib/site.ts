@@ -18,21 +18,37 @@ export const meta = {
   live: {
     title: "Termine — Tafi Michel",
     description:
-      "Alle kommenden Auftritte von Tafi Michel in der Deutschschweiz. Daten, Veranstaltungsorte und Tickets.",
+      "Nächster Auftritt: Der Südschweizer und sein Barde, ComedyHaus Zürich, 21. November 2026. Daten, Orte und Tickets.",
   },
   about: {
     title: "Über Tafi Michel — Comedian aus Zürich",
     description:
-      "Werdegang, Bühnenprofil und Pressematerial zum Download. Stand-up-Comedian mit südafrikanischen und schweizerischen Wurzeln.",
+      "Werdegang, Bühnenprofil und Pressetexte zum Kopieren. Stand-up-Comedian mit südafrikanischen und schweizerischen Wurzeln.",
   },
   book: {
     title: "Comedian buchen — Tafi Michel",
     description:
-      "Stand-up für Comedy-Shows, Festivals, Firmenanlässe und private Veranstaltungen. Formate, Ablauf und Anfrageformular.",
+      "Stand-up für Comedy-Shows, Festivals, Firmenanlässe und private Veranstaltungen in der Deutschschweiz. Formate, Ablauf und Anfrageformular.",
   },
   contact: {
     title: "Kontakt — Tafi Michel",
-    description: "Buchungs- und Presseanfragen direkt an Tafi Michel.",
+    description:
+      "Buchungs- und Presseanfragen an Tafi Michel. Formular oder Instagram — die Antwort kommt direkt vom Comedian.",
+  },
+  show: {
+    title: "Der Südschweizer und sein Barde — Tafi Michel",
+    description:
+      "Soloprogramm von Tafi Michel am 21. November 2026 im ComedyHaus Zürich. Tickets, Ort, Türöffnung und Infos zum Abend.",
+  },
+  imprint: {
+    title: "Impressum — Tafi Michel",
+    description:
+      "Impressum der Website von Tafi Michel, Stand-up-Comedian aus Zürich. Kontakt über Formular oder Instagram.",
+  },
+  privacy: {
+    title: "Datenschutz — Tafi Michel",
+    description:
+      "Datenschutzhinweise zur Website von Tafi Michel: Anfrageformular, Cloudflare Turnstile und eingebettete SRF-Videos.",
   },
 } as const;
 
@@ -51,6 +67,7 @@ export const legal = [
 export const show = {
   eyebrow: "Soloprogramm",
   title: "Der Südschweizer und sein Barde",
+  path: "/der-suedschweizer-und-sein-barde",
   copy: "Das Soloprogramm von Tafi Michel. ComedyHaus Zürich, 21. November 2026.",
   weekday: "Samstag",
   day: "21",
@@ -197,6 +214,7 @@ export const events = [
     title: "Der Südschweizer und sein Barde",
     venue: "ComedyHaus",
     city: "Zürich",
+    path: "/der-suedschweizer-und-sein-barde",
     tickets:
       "https://eventfrog.ch/de/p/theater-buehne/comedy-kabarett/tafi-michel-der-suedschweizer-und-sein-barde-7486389198548686477.html",
   },

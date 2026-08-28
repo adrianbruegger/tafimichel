@@ -1,9 +1,12 @@
-import type { Metadata } from "next";
 import { PageIntro } from "@/components/ui";
+import { pageMeta } from "@/lib/seo";
+import { meta } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Datenschutz — Tafi Michel",
-};
+export const metadata = pageMeta(
+  "/datenschutz",
+  meta.privacy.title,
+  meta.privacy.description,
+);
 
 export default function PrivacyPage() {
   return (

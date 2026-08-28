@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import { GhostLink, SolidLink } from "@/components/ui";
 import { Reveal, SplitHeading } from "@/components/reveal";
+
+export const metadata: Metadata = {
+  title: "Seite nicht gefunden — Tafi Michel",
+  robots: { index: false, follow: true },
+};
 
 export default function NotFound() {
   return (

@@ -1,18 +1,17 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { EventList } from "@/components/dates";
+import { JsonLd } from "@/components/json-ld";
 import { Reveal } from "@/components/reveal";
 import { PageIntro } from "@/components/ui";
+import { eventGraph, pageMeta } from "@/lib/seo";
 import { live, meta, site } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: meta.live.title,
-  description: meta.live.description,
-};
+export const metadata = pageMeta("/live", meta.live.title, meta.live.description);
 
 export default function LivePage() {
   return (
     <main>
+      <JsonLd data={eventGraph()} />
       <PageIntro title={live.title} eyebrow="Live">
         <p>{live.intro}</p>
       </PageIntro>

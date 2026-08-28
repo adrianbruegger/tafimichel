@@ -1,17 +1,22 @@
 import { Bio } from "@/components/bio";
 import { Hero } from "@/components/hero";
+import { JsonLd } from "@/components/json-ld";
 import { Marquee } from "@/components/marquee";
 import { Reveal, SplitHeading } from "@/components/reveal";
 import { Show } from "@/components/show";
 import { Stage } from "@/components/stage";
 import { GhostLink, SolidLink } from "@/components/ui";
-import { home } from "@/lib/site";
+import { eventGraph, pageMeta } from "@/lib/seo";
+import { home, meta } from "@/lib/site";
+
+export const metadata = pageMeta("/", meta.home.title, meta.home.description);
 
 export default function Home() {
   const { stages, close } = home;
 
   return (
     <main>
+      <JsonLd data={eventGraph()} />
       <Hero />
       <Show />
       <Bio />

@@ -1,13 +1,10 @@
-import type { Metadata } from "next";
 import { InquiryForm } from "@/components/inquiry-form";
 import { Reveal, SplitHeading } from "@/components/reveal";
 import { PageIntro } from "@/components/ui";
+import { pageMeta } from "@/lib/seo";
 import { book, meta } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: meta.book.title,
-  description: meta.book.description,
-};
+export const metadata = pageMeta("/buchen", meta.book.title, meta.book.description);
 
 export const maxDuration = 30;
 

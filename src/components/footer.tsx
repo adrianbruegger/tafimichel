@@ -17,6 +17,14 @@ export function Footer() {
           <nav className="md:col-span-3" aria-label="Seiten">
             <p className="label text-ash/35">Seiten</p>
             <ul className="mt-5 space-y-2.5">
+              <li>
+                <Link
+                  href={show.path}
+                  className="text-ash/70 transition-colors hover:text-ash"
+                >
+                  Programm
+                </Link>
+              </li>
               {nav.map((item) => (
                 <li key={item.href}>
                   <Link

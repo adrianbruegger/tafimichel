@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import Link from "next/link";
 import { InquiryForm } from "@/components/inquiry-form";
 import { Reveal } from "@/components/reveal";
 import { PageIntro } from "@/components/ui";
+import { pageMeta } from "@/lib/seo";
 import { contact, meta, show, site } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: meta.contact.title,
-  description: meta.contact.description,
-};
+export const metadata = pageMeta(
+  "/kontakt",
+  meta.contact.title,
+  meta.contact.description,
+);
 
 export const maxDuration = 30;
 
@@ -33,9 +35,9 @@ export default function ContactPage() {
           </div>
           <div>
             <p className="label text-ash/35">Nächster Auftritt</p>
-            <p className="mt-3 text-lg">
+            <Link href={show.path} className="mt-3 block text-lg hover:text-ember">
               {show.day}. {show.month} {show.year}
-            </p>
+            </Link>
             <p className="text-ash/55">
               {show.venue}, {show.city}
             </p>

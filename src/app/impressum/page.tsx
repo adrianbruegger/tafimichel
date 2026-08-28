@@ -1,11 +1,13 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { PageIntro } from "@/components/ui";
-import { site } from "@/lib/site";
+import { pageMeta } from "@/lib/seo";
+import { meta, site } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Impressum — Tafi Michel",
-};
+export const metadata = pageMeta(
+  "/impressum",
+  meta.imprint.title,
+  meta.imprint.description,
+);
 
 export default function ImpressumPage() {
   return (

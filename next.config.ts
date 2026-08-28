@@ -10,7 +10,12 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/images/:path*",
-        headers: [{ key: "Cache-Control", value: "no-store" }],
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
       },
     ];
   },

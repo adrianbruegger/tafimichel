@@ -1,6 +1,7 @@
 "use client";
 
 import { useLayoutEffect, useRef } from "react";
+import Link from "next/link";
 import { Reveal, SplitHeading } from "@/components/reveal";
 import { EmberA } from "@/components/ui";
 import { home, show } from "@/lib/site";
@@ -55,6 +56,11 @@ export function Show() {
             delay={0.1}
           >
             {show.copy}
+          </Reveal>
+          <Reveal className="mt-8" delay={0.14}>
+            <Link href={show.path} className="link-line text-veld">
+              Mehr zum Abend
+            </Link>
           </Reveal>
           <Reveal className="mt-12 max-w-md" delay={0.16}>
             <div className="rule rule-ink" />

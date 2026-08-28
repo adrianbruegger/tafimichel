@@ -42,7 +42,7 @@ export function Reveal({
     const ctx = gsap.context(() => {
       const targets = stagger ? Array.from(el.children) : [el];
       gsap.set(el, { opacity: 1 });
-      gsap.fromTo(
+      const tween = gsap.fromTo(
         targets,
         { opacity: 0, y },
         {
@@ -55,6 +55,11 @@ export function Reveal({
           scrollTrigger: { trigger: el, start: REVEAL_START, once: true },
         },
       );
+      const fallback = window.setTimeout(() => {
+        tween.progress(1);
+        gsap.set(targets, { opacity: 1, y: 0 });
+      }, 2500);
+      return () => window.clearTimeout(fallback);
     }, el);
 
     return () => ctx.revert();
@@ -99,22 +104,33 @@ export function SplitHeading({
 
     const ctx = gsap.context(() => {
       gsap.set(el, { opacity: 1 });
+      const fallbacks: number[] = [];
       const split = SplitText.create(el, {
         type: "lines",
         mask: "lines",
         autoSplit: true,
         linesClass: "split-line",
-        onSplit: (self) =>
-          gsap.from(self.lines, {
+        onSplit: (self) => {
+          const tween = gsap.from(self.lines, {
             yPercent: 108,
             duration: 1.15,
             delay,
             ease: EASE,
             stagger: 0.085,
             scrollTrigger: { trigger: el, start: REVEAL_START, once: true },
-          }),
+          });
+          const fallback = window.setTimeout(() => {
+            tween.progress(1);
+            gsap.set(self.lines, { yPercent: 0 });
+          }, 2500);
+          fallbacks.push(fallback);
+          return tween;
+        },
       });
-      return () => split.revert();
+      return () => {
+        fallbacks.forEach((id) => window.clearTimeout(id));
+        split.revert();
+      };
     }, el);
 
     return () => ctx.revert();
