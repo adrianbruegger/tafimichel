@@ -46,6 +46,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="de"
       className={`${sans.variable} ${display.variable} h-full antialiased`}
     >
+      <head>
+        <link rel="preconnect" href="https://challenges.cloudflare.com" />
+      </head>
       <body className="min-h-full bg-veld font-sans text-ash">
         {/* Hides scroll-reveal targets before first paint, so nothing flashes
             in and then jumps. Injecting a stylesheet rather than touching a

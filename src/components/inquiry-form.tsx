@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { sendInquiry, type ContactState } from "@/app/actions";
+import { TurnstileField } from "@/components/turnstile-field";
 import { Arrow } from "@/components/ui";
 
 const initial: ContactState = { status: "idle", message: "" };
@@ -19,7 +20,12 @@ const fields = [
 
 export function InquiryForm() {
   const [state, action, pending] = useActionState(sendInquiry, initial);
+  const [resetSignal, setResetSignal] = useState(0);
   const done = state.status === "success";
+
+  useEffect(() => {
+    if (state.status === "error") setResetSignal((n) => n + 1);
+  }, [state]);
 
   return (
     <form action={action} className="max-w-2xl">
@@ -54,6 +60,8 @@ export function InquiryForm() {
           className="field mt-1 resize-none"
         />
       </div>
+
+      <TurnstileField resetSignal={resetSignal} />
 
       <div className="mt-10 flex flex-wrap items-center gap-6">
         <button

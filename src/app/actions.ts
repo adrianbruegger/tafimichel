@@ -1,6 +1,7 @@
 "use server";
 
 import { sendInquiryMail } from "@/lib/mail";
+import { verifyTurnstile } from "@/lib/turnstile";
 
 export type ContactState = {
   status: "idle" | "success" | "error";
@@ -29,6 +30,15 @@ export async function sendInquiry(
 
   if (message.length < 4) {
     return { status: "error", message: "Bitte schreib eine Nachricht." };
+  }
+
+  const token = field(formData, "cf-turnstile-response");
+  const human = await verifyTurnstile(token);
+  if (!human) {
+    return {
+      status: "error",
+      message: "Die Prüfung ist fehlgeschlagen. Bitte versuch es noch einmal.",
+    };
   }
 
   console.info("[inquiry] submit", { nameLength: name.length, emailDomain: email.split("@")[1] ?? "" });
