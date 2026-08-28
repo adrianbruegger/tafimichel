@@ -3,21 +3,37 @@ import { EventList } from "@/components/dates";
 import { JsonLd } from "@/components/json-ld";
 import { Reveal } from "@/components/reveal";
 import { PageIntro } from "@/components/ui";
-import { eventGraph, pageMeta } from "@/lib/seo";
+import { listEvents } from "@/lib/events";
+import { eventsGraph, pageMeta } from "@/lib/seo";
 import { live, meta, site } from "@/lib/site";
 
 export const metadata = pageMeta("/live", meta.live.title, meta.live.description);
 
-export default function LivePage() {
+export const revalidate = 300;
+
+export default async function LivePage() {
+  const { upcoming, past } = await listEvents();
+
   return (
     <main>
-      <JsonLd data={eventGraph()} />
+      {upcoming.length > 0 ? <JsonLd data={eventsGraph(upcoming)} /> : null}
       <PageIntro title={live.title} eyebrow="Live">
         <p>{live.intro}</p>
       </PageIntro>
 
       <section className="frame pb-24 md:pb-32">
-        <EventList empty={live.empty} />
+        <EventList items={upcoming} empty={live.empty} />
+
+        {past.length > 0 ? (
+          <div className="mt-20 md:mt-28">
+            <Reveal as="p" className="label text-ash/35">
+              {live.past}
+            </Reveal>
+            <div className="mt-8">
+              <EventList items={past} past />
+            </div>
+          </div>
+        ) : null}
 
         <div className="mt-16 grid gap-10 border-t border-line pt-10 md:grid-cols-2">
           <Reveal>

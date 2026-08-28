@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { events, meta, show, site } from "@/lib/site";
+import type { SiteEvent } from "@/lib/events";
+import { meta, show, site } from "@/lib/site";
 
 export function pageMeta(path: string, title: string, description: string): Metadata {
   return {
@@ -25,7 +26,6 @@ export function pageMeta(path: string, title: string, description: string): Meta
 const personId = `${site.url}/#person`;
 const websiteId = `${site.url}/#website`;
 const eventId = `${site.url}${show.path}#event`;
-const nextShow = events[0];
 
 export function personNode() {
   return {
@@ -70,7 +70,7 @@ export function eventNode() {
     url: `${site.url}${show.path}`,
     image: `${site.url}/images/portrait.jpeg`,
     inLanguage: "de-CH",
-    startDate: `${nextShow.date}T${nextShow.time}:00+01:00`,
+    startDate: `${show.date}T${show.time}:00+01:00`,
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     eventStatus: "https://schema.org/EventScheduled",
     location: {
@@ -103,5 +103,40 @@ export function eventGraph() {
   return {
     "@context": "https://schema.org",
     "@graph": [eventNode()],
+  };
+}
+
+export function eventsGraph(items: SiteEvent[]) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": items.map((event) => ({
+      "@type": "Event",
+      name: event.title,
+      url: event.path ? `${site.url}${event.path}` : `${site.url}/live`,
+      image: `${site.url}/images/portrait.jpeg`,
+      inLanguage: "de-CH",
+      startDate: `${event.date}T${event.time}:00+01:00`,
+      eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+      eventStatus: "https://schema.org/EventScheduled",
+      location: {
+        "@type": "Place",
+        name: event.venue,
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: event.city,
+          addressCountry: "CH",
+        },
+      },
+      performer: { "@id": personId },
+      ...(event.tickets
+        ? {
+            offers: {
+              "@type": "Offer",
+              url: event.tickets,
+              availability: "https://schema.org/InStock",
+            },
+          }
+        : {}),
+    })),
   };
 }

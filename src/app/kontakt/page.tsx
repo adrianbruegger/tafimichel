@@ -2,8 +2,9 @@ import Link from "next/link";
 import { InquiryForm } from "@/components/inquiry-form";
 import { Reveal } from "@/components/reveal";
 import { PageIntro } from "@/components/ui";
+import { upcomingEvents } from "@/lib/events";
 import { pageMeta } from "@/lib/seo";
-import { contact, meta, show, site } from "@/lib/site";
+import { contact, formatEventDate, meta, site } from "@/lib/site";
 
 export const metadata = pageMeta(
   "/kontakt",
@@ -12,8 +13,11 @@ export const metadata = pageMeta(
 );
 
 export const maxDuration = 30;
+export const revalidate = 300;
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const [next] = await upcomingEvents(1);
+
   return (
     <main>
       <PageIntro title={contact.title} eyebrow="Schreiben">
@@ -33,15 +37,20 @@ export default function ContactPage() {
               {site.instagramHandle}
             </a>
           </div>
-          <div>
-            <p className="label text-ash/35">Nächster Auftritt</p>
-            <Link href={show.path} className="mt-3 block text-lg hover:text-ember">
-              {show.day}. {show.month} {show.year}
-            </Link>
-            <p className="text-ash/55">
-              {show.venue}, {show.city}
-            </p>
-          </div>
+          {next ? (
+            <div>
+              <p className="label text-ash/35">Nächster Auftritt</p>
+              <Link
+                href={next.path ?? "/live"}
+                className="mt-3 block text-lg hover:text-ember"
+              >
+                {formatEventDate(next.date)}
+              </Link>
+              <p className="text-ash/55">
+                {next.venue}, {next.city}
+              </p>
+            </div>
+          ) : null}
         </Reveal>
 
         <Reveal className="md:col-span-8" delay={0.1}>

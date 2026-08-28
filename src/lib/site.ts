@@ -69,6 +69,7 @@ export const show = {
   title: "Der Südschweizer und sein Barde",
   path: "/der-suedschweizer-und-sein-barde",
   copy: "Das Soloprogramm von Tafi Michel. ComedyHaus Zürich, 21. November 2026.",
+  date: "2026-11-21",
   weekday: "Samstag",
   day: "21",
   month: "November",
@@ -137,6 +138,7 @@ export const live = {
   title: "Termine",
   intro: "Alle öffentlichen Auftritte auf einen Blick. Tickets laufen über die jeweiligen Veranstalter.",
   empty: "Momentan sind keine Termine angesetzt. Für Buchungsanfragen geht es auf der Seite Buchen weiter.",
+  past: "Vergangene Auftritte",
   instagram:
     "Neue Termine werden zuerst auf Instagram angekündigt.",
 } as const;
@@ -206,26 +208,6 @@ export const contact = {
   intro:
     "Anfragen für Auftritte, Presseanfragen und alles Übrige. Die Antwort kommt direkt von Tafi.",
 } as const;
-
-export const events = [
-  {
-    date: "2026-11-21",
-    time: "20:15",
-    title: "Der Südschweizer und sein Barde",
-    venue: "ComedyHaus",
-    city: "Zürich",
-    path: "/der-suedschweizer-und-sein-barde",
-    tickets:
-      "https://eventfrog.ch/de/p/theater-buehne/comedy-kabarett/tafi-michel-der-suedschweizer-und-sein-barde-7486389198548686477.html",
-  },
-] as const;
-
-export function upcomingEvents(limit?: number) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const open = events.filter((event) => new Date(`${event.date}T23:59:59`) >= today);
-  return typeof limit === "number" ? open.slice(0, limit) : open;
-}
 
 export function formatEventDate(iso: string) {
   return new Intl.DateTimeFormat("de-CH", {
