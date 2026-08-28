@@ -7,6 +7,10 @@ export const site = {
   videoCaption: "Live aufgenommen, ungeschnitten.",
   srfEmbed:
     "https://www.srf.ch/play/embed?urn=urn:srf:video:2ee5efb9-d87f-4eda-b678-b4135df34132&subdivisions=false",
+  plausible: {
+    domain: "tafimichel.ch",
+    script: "https://analytics.siebenberge.com/js/script.js",
+  },
 } as const;
 
 export const meta = {
@@ -48,7 +52,7 @@ export const meta = {
   privacy: {
     title: "Datenschutz — Tafi Michel",
     description:
-      "Datenschutzhinweise zur Website von Tafi Michel: Anfrageformular, Cloudflare Turnstile und eingebettete SRF-Videos.",
+      "Datenschutzhinweise zur Website von Tafi Michel: cookiefreie Webanalyse, Anfrageformular, Cloudflare Turnstile und eingebettete SRF-Videos.",
   },
 } as const;
 

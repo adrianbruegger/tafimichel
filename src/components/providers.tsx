@@ -3,11 +3,25 @@
 import { ReactLenis, useLenis } from "lenis/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useLayoutEffect, useState } from "react";
+
 gsap.registerPlugin(ScrollTrigger);
+gsap.ticker.lagSmoothing(0);
 
 function ScrollBridge() {
+  const pathname = usePathname();
+  const lenis = useLenis();
+
   useLenis(ScrollTrigger.update);
+
+  useLayoutEffect(() => {
+    document.body.style.removeProperty("overflow");
+    lenis?.start();
+    lenis?.resize();
+    ScrollTrigger.refresh();
+  }, [pathname, lenis]);
+
   return null;
 }
 
@@ -30,6 +44,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         smoothWheel: !reduceMotion,
         wheelMultiplier: 0.9,
         anchors: { offset: 72 },
+        stopInertiaOnNavigate: true,
       }}
     >
       <ScrollBridge />

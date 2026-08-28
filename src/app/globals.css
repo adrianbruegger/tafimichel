@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
 
 /* ─────────────────────────────────────────────────────────────
    Tokens — one dark ground, one accent, layered surfaces.
@@ -61,7 +62,12 @@
   --font-display: var(--font-shoulders);
 }
 
-html,
+html {
+  background: var(--veld);
+  color: var(--ash);
+  scroll-padding-top: 5rem;
+}
+
 body {
   background: var(--veld);
   color: var(--ash);

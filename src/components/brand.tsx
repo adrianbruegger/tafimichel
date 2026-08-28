@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { site } from "@/lib/site";
 
 type MarkProps = {
@@ -15,20 +16,38 @@ export function SwissDot({ className }: MarkProps) {
 }
 
 export function SaDot({ className }: MarkProps) {
+  const id = useId().replace(/:/g, "");
+  const flagClip = `${id}-flag`;
+  const triClip = `${id}-tri`;
+
   return (
     <svg
-      viewBox="0 0 32 32"
+      viewBox="0 0 90 60"
+      preserveAspectRatio="xMidYMid slice"
       className={`overflow-hidden rounded-full ${className ?? ""}`}
       aria-hidden
     >
-      <rect width="32" height="16" fill="#DE3831" />
-      <rect y="16" width="32" height="16" fill="#002395" />
-      <polygon points="0,0 16,16 0,32" fill="#007A4D" />
-      <polygon points="0,4.2 12.6,16 0,27.8" fill="#FFB81C" />
-      <polygon points="0,7.4 9.4,16 0,24.6" fill="#000" />
-      <polygon points="9.8,16 32,16 32,13.15 14.2,13.15" fill="#fff" />
-      <polygon points="9.8,16 32,16 32,18.85 14.2,18.85" fill="#fff" />
-      <polygon points="14.2,13.15 32,13.15 32,18.85 14.2,18.85" fill="#007A4D" />
+      <defs>
+        <clipPath id={flagClip}>
+          <path d="M0 0h90v60H0z" />
+        </clipPath>
+        <clipPath id={triClip}>
+          <path d="m0 0 45 30L0 60z" />
+        </clipPath>
+      </defs>
+      <path fill="#E03C31" d="M0 0h90v30H45z" />
+      <path fill="#001489" d="M0 60h90V30H45z" />
+      <g clipPath={`url(#${flagClip})`} fill="none">
+        <path stroke="#fff" strokeWidth="20" d="M90 30H45L0 0v60l45-30" />
+        <path
+          fill="#000"
+          stroke="#FFB81C"
+          strokeWidth="20"
+          clipPath={`url(#${triClip})`}
+          d="m0 0 45 30L0 60"
+        />
+        <path stroke="#007749" strokeWidth="12" d="m0 0 45 30h45M0 60l45-30" />
+      </g>
     </svg>
   );
 }

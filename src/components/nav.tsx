@@ -150,6 +150,7 @@ export function Nav() {
         <div
           id="menu"
           className="absolute inset-x-0 top-16 bottom-0 flex flex-col justify-between overflow-auto bg-veld px-5 pt-10 pb-10 md:top-[4.25rem]"
+          data-lenis-prevent
         >
           <nav className="flex flex-1 flex-col justify-center">
             {nav.map((item, index) => (

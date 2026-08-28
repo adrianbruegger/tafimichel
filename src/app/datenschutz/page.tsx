@@ -24,6 +24,14 @@ export default function PrivacyPage() {
           übermittelt werden.
         </p>
         <p>
+          Diese Website nutzt Plausible Analytics, um anonyme, statistische
+          Angaben zur Nutzung der Seiten zu erhalten. Die Auswertung ist
+          cookiefrei: Es werden keine Cookies gesetzt, keine personenbezogenen
+          Daten verarbeitet und du bist über Websites hinweg nicht verfolgbar.
+          Die Analyse wird auf einem eigenen Server (analytics.siebenberge.com)
+          betrieben.
+        </p>
+        <p>
           Eingebettete Videos von SRF können eigene Cookies setzen. Details dazu
           findest du in den Datenschutzbestimmungen von SRF.
         </p>

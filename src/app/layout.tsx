@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Big_Shoulders, Onest } from "next/font/google";
 import { Footer } from "@/components/footer";
 import { JsonLd } from "@/components/json-ld";
@@ -38,12 +39,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="de-CH"
-      className={`${sans.variable} ${display.variable} h-full antialiased`}
+      className={`${sans.variable} ${display.variable} antialiased`}
     >
       <head>
         <link rel="preconnect" href="https://challenges.cloudflare.com" />
+        <link rel="preconnect" href={new URL(site.plausible.script).origin} />
       </head>
-      <body className="min-h-full bg-veld font-sans text-ash">
+        <body className="min-h-svh bg-veld font-sans text-ash">
         <script
           dangerouslySetInnerHTML={{
             __html:
@@ -61,6 +63,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <div id="inhalt">{children}</div>
           <Footer />
         </Providers>
+        <Script
+          src={site.plausible.script}
+          strategy="afterInteractive"
+          data-domain={site.plausible.domain}
+        />
         <JsonLd data={siteGraph()} />
       </body>
     </html>
