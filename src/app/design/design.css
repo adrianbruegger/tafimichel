@@ -1,0 +1,231 @@
+/* ─────────────────────────────────────────────────────────────
+   Design studio — motion and masks used only by the three
+   homepage proposals under /design. Kept out of globals.css so
+   the live site ships none of it.
+   Tokens, type and easings all come from globals.css.
+   ───────────────────────────────────────────────────────────── */
+
+/* ── Shared: an index card that sits above the page chrome ── */
+.dx-switch {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  z-index: 60;
+  transform: translateX(-50%);
+}
+
+/* ── Doppelpass: the seam ── */
+.dx-coin {
+  perspective: 600px;
+}
+
+.dx-coin-inner {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.dx-coin-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+}
+
+.dx-coin-back {
+  transform: rotateY(180deg);
+}
+
+/* Outline display type for the country rails */
+.dx-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(232, 226, 215, 0.17);
+}
+
+/* ── Setlist: the travelling spotlight ── */
+.dx-spot {
+  --mx: 50%;
+  --my: 44%;
+  /* Lit wide open by default: without JS, or with reduced motion, the poster
+     is simply readable. The script narrows the beam when it takes over. */
+  --r: 150vmax;
+  --glow: 0;
+}
+
+.dx-spot-lit {
+  -webkit-mask-image: radial-gradient(
+    circle var(--r) at var(--mx) var(--my),
+    #000 0%,
+    rgba(0, 0, 0, 0.92) 38%,
+    rgba(0, 0, 0, 0.35) 62%,
+    transparent 78%
+  );
+  mask-image: radial-gradient(
+    circle var(--r) at var(--mx) var(--my),
+    #000 0%,
+    rgba(0, 0, 0, 0.92) 38%,
+    rgba(0, 0, 0, 0.35) 62%,
+    transparent 78%
+  );
+}
+
+.dx-spot-glow {
+  opacity: var(--glow);
+  background: radial-gradient(
+    circle calc(var(--r) * 1.15) at var(--mx) var(--my),
+    rgba(212, 70, 11, 0.3) 0%,
+    rgba(212, 70, 11, 0.1) 38%,
+    transparent 70%
+  );
+}
+
+@keyframes dx-mote {
+  0% { transform: translate3d(0, 0, 0); opacity: 0; }
+  12% { opacity: 0.9; }
+  88% { opacity: 0.55; }
+  100% { transform: translate3d(1.4rem, -9rem, 0); opacity: 0; }
+}
+
+.dx-mote {
+  animation: dx-mote var(--dur, 9s) linear var(--delay, 0s) infinite;
+}
+
+@keyframes dx-blink {
+  0%, 46% { opacity: 1; }
+  52%, 100% { opacity: 0.18; }
+}
+
+.dx-blink {
+  animation: dx-blink 1.9s steps(1, end) infinite;
+}
+
+/* Setlist rows: the ember wipe that fills a row on hover */
+.dx-row-fill {
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 560ms var(--ease-out-expo);
+}
+
+.dx-row:hover .dx-row-fill,
+.dx-row:focus-visible .dx-row-fill {
+  transform: scaleY(1);
+}
+
+.dx-row-type {
+  transition: transform 620ms var(--ease-out-expo), color 320ms var(--ease-out-expo);
+}
+
+.dx-row:hover .dx-row-type,
+.dx-row:focus-visible .dx-row-type {
+  transform: translateX(1.1rem);
+}
+
+/* Ash at 35% reads fine on veld and barely at all on ember. */
+.dx-row-mute {
+  transition: color 320ms var(--ease-out-expo);
+}
+
+.dx-row:hover .dx-row-mute,
+.dx-row:focus-visible .dx-row-mute {
+  color: color-mix(in srgb, var(--ash) 80%, transparent);
+}
+
+/* ── Tonspur: broadcast furniture ── */
+.dx-bars > span {
+  transform-origin: bottom;
+  animation: dx-bar var(--dur, 1.1s) var(--ease-in-out) var(--delay, 0s) infinite alternate;
+}
+
+@keyframes dx-bar {
+  from { transform: scaleY(0.12); }
+  to { transform: scaleY(1); }
+}
+
+/* Sprocket strip down the side of a reel frame */
+.dx-sprockets {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(232, 226, 215, 0.22) 0 0.75rem,
+    transparent 0.75rem 2rem
+  );
+}
+
+.dx-letterbox {
+  transition: transform 1.3s var(--ease-out-expo);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dx-mote,
+  .dx-blink,
+  .dx-bars > span {
+    animation: none;
+  }
+
+  .dx-row-fill,
+  .dx-row-type,
+  .dx-letterbox {
+    transition: none;
+  }
+}
+
+/* ── Index page: the three thumbnails preview their own motion ── */
+@keyframes dxp-seam {
+  0%, 100% { clip-path: inset(0 0 0 24%); }
+  50% { clip-path: inset(0 0 0 76%); }
+}
+
+.dxp-seam {
+  animation: dxp-seam 7s var(--ease-in-out) infinite;
+}
+
+@keyframes dxp-seam-line {
+  0%, 100% { left: 24%; }
+  50% { left: 76%; }
+}
+
+.dxp-seam-line {
+  animation: dxp-seam-line 7s var(--ease-in-out) infinite;
+}
+
+@keyframes dxp-spot {
+  0%, 100% { --mx: 26%; --my: 62%; }
+  50% { --mx: 74%; --my: 38%; }
+}
+
+@property --mx {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 50%;
+}
+
+@property --my {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 50%;
+}
+
+.dxp-spot {
+  --r: 5.5rem;
+  animation: dxp-spot 8s var(--ease-in-out) infinite;
+}
+
+@keyframes dxp-strip {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.dxp-strip {
+  animation: dxp-strip 16s linear infinite;
+}
+
+.dxp-card:hover .dxp-strip {
+  animation-duration: 7s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dxp-seam,
+  .dxp-seam-line,
+  .dxp-spot,
+  .dxp-strip {
+    animation: none;
+  }
+}

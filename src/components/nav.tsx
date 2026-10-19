@@ -16,7 +16,9 @@ export function Nav() {
   const [progress, setProgress] = useState(0);
   const [lastPath, setLastPath] = useState(pathname);
   const lenis = useLenis();
-  const home = pathname === "/";
+  // The design proposals open on a full-bleed hero too, so the bar starts
+  // transparent there as well.
+  const home = pathname === "/" || pathname.startsWith("/design/");
 
   // Navigating closes the menu. Adjusting during render rather than in an
   // effect avoids a frame where the overlay covers the page you just opened.
